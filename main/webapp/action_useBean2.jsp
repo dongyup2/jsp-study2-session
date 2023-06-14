@@ -17,6 +17,7 @@
 <h3>정보 변경 후 변경된 정보 출력하기</h3>
 <jsp:setProperty property="name" name="person" value="홍길동"/>
 <jsp:setProperty property="age" name="person" value="23"/>
+<!--프로퍼티에서는 name이 변수라고 생각  -->
 이름: <jsp:getProperty property="name" name="person"/><br>
 나이: <jsp:getProperty property="age" name="person"/><br>
 </body>
