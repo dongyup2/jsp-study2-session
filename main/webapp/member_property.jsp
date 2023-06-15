@@ -19,22 +19,29 @@
   <input type="submit" value="전송">
 </form>
 <%
-	if(request.getParameter("mno") != null) {
-		Member.setMno(Integer.parseInt(request.getParameter("mno")));
-	}
-	if(request.getParameter("name") != null) {
-		Member.setName(request.getParameter("name"));
-	}
-	if(request.getParameter("id") != null) {
-		Member.setId(request.getParameter("id"));
-	}
-	if(request.getParameter("pw") != null) {
-		Member.setPw(request.getParameter("pw"));
-	}
-	if(request.getParameter("phone") != null) {
-		Member.setPhone(request.getParameter("phone"));
-	}
+	if(){
+		if(request.getParameter("mno") != null) {
+			Member.setMno(Integer.parseInt(request.getParameter("mno")));
+		}
+		if(request.getParameter("name") != null) {
+			Member.setName(request.getParameter("name"));
+		}
+		if(request.getParameter("id") != null) {
+			Member.setId(request.getParameter("id"));
+		}
+		if(request.getParameter("pw") != null) {
+			Member.setPw(request.getParameter("pw"));
+		}
+		if(request.getParameter("phone") != null) {
+			Member.setPhone(request.getParameter("phone"));
+		}
+	}else{
 %>
+	alert();
+<% 
+	}
+%>		
+	
 <%-- <jsp:setProperty property="mno" name="Member" value="1"/><br>
 <jsp:setProperty property="name" name="Member" value="홍길동"/><br>
 <jsp:setProperty property="id" name="Member" value="id1"/><br>
