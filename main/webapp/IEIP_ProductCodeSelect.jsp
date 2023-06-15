@@ -86,7 +86,7 @@ footer{
             <li><a href="IEIP_index.jsp">홈으로</a></li>
         </ul>
     </nav>
-    <h3>점포별 주문현황</h3>
+    <h3>제품코드조회</h3>
     <section>
     	<table border="1px">
 			<thead>
