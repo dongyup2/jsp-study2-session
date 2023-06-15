@@ -58,30 +58,39 @@ table{
 	
 }
 
-footer{
+body {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  margin: 0;
+}
+
+main {
+  flex: 1;
+  min-height: calc(100vh - (푸터의 높이));
+}
+
+footer {
     background-color: blue;
     text-align: center;
     padding: 10px;
     color: white;
     font-size: 0.8em;
     border-top: 1px solid black;
-    position: absolute;
-    width: 100%;
-    bottom: 0;
 }
+
 </style>
 </head>
 <body>
     <header>
         <h1><a href="IEIP_index.jsp">할인점 주문프로그램 ver 1.0</h1>
-        <hr>
     </header>
     <nav>
         <ul>
             <li><a href="IEIP_registerOrder.jsp">주문등록</a></li>
             <li><a href="IEIP_Orderlist.jsp">주문목록조회</a></li>
-            <li><a href="">점포별주문현황</a></li>
-            <li><a href="">제품코드조회</a></li>
+            <li><a href="IEIP_OrderStatusByStore.jsp">점포별주문현황</a></li>
+            <li><a href="IEIP_ProductCodeSelect.jsp">제품코드조회</a></li>
             <li><a href="IEIP_index.jsp">홈으로</a></li>
         </ul>
     </nav>
@@ -100,39 +109,37 @@ footer{
        		<th>할인가격</th>
        	</thead>
        <tbody>
-        <%
-        // 소수점이 없는 숫자 형식 
-        DecimalFormat decimalFormat = new DecimalFormat("###,###");
+				<%
+				// 소수점이 없는 숫자 형식
+				DecimalFormat decimalFormat = new DecimalFormat("###,###");
 
-        String sql = "SELECT TBL_ORDER_202101.*, TBL_SHOP_202101.SHOPNO, TBL_SHOP_202101.SHOPNAME, TBL_SHOP_202101.DISCOUNT, TBL_PRODUCT_202101.PCODE, TBL_PRODUCT_202101.PNAME, TBL_PRODUCT_202101.COST, " +
-                "((TBL_ORDER_202101.AMOUNT * TBL_PRODUCT_202101.COST) - (TBL_ORDER_202101.AMOUNT * TBL_PRODUCT_202101.COST * TBL_SHOP_202101.DISCOUNT)) AS discounted_price, " +
-                "(TBL_ORDER_202101.AMOUNT * TBL_PRODUCT_202101.COST) AS consumer_price " +
-                "FROM green02.TBL_ORDER_202101 " +
-                "JOIN green02.TBL_SHOP_202101 ON TBL_ORDER_202101.SHOPNO = TBL_SHOP_202101.SHOPNO " +
-                "JOIN green02.TBL_PRODUCT_202101 ON TBL_ORDER_202101.PCODE = TBL_PRODUCT_202101.PCODE";
+				String sql = "SELECT s.shopno, s.shopname, o.orderno, o.orderdate, p.pcode, p.pname, o.amount, p.cost, o.amount * p.cost AS price, o.amount * p.cost - (o.amount * p.cost * (s.discount / 100)) AS disprice "
+						+ "FROM tbl_order_202101 o, tbl_product_202101 p, tbl_shop_202101 s "
+						+ "WHERE o.shopno = s.shopno AND o.pcode = p.pcode";
 
+				Connection conn = DBcon.getInstance().getConnection();
+				Statement stmt = conn.createStatement();
+				ResultSet rs = stmt.executeQuery(sql);
 
+				while (rs.next()) {
+				%>
+				<tr>
+					<td><%=rs.getString("shopno")%></td>
+					<td><%=rs.getString("shopname")%></td>
+					<td><%=rs.getString("orderno")%></td>
+					<td><%=rs.getString("orderdate")%></td>
+					<td><%=rs.getString("pcode")%></td>
+					<td><%=rs.getString("pname")%></td>
+					<td><%=decimalFormat.format(rs.getInt("amount"))%></td>
+					<td><%=decimalFormat.format(rs.getInt("cost"))%></td>
+					<td><%=decimalFormat.format(rs.getInt("price"))%></td>
+					<td><%=decimalFormat.format(rs.getInt("disprice"))%></td>
+				</tr>
+				<%
+				}
+				%>
 
-        Connection conn = DBcon.getInstance().getConnection();
-        Statement stmt = conn.createStatement();
-        ResultSet rs = stmt.executeQuery(sql);
-
-        while (rs.next()) {
-        %>
-            <tr>
-                <td><%= rs.getString("SHOPNO") %></td>
-                <td><%= rs.getString("SHOPNAME") %></td>
-                <td><%= String.format("%04d-%04d", rs.getInt("ORDERNO") / 10000, rs.getInt("ORDERNO") % 10000) %></td>
-                <td><%= rs.getDate("ORDERDATE") %></td>
-                <td><%= rs.getString("PCODE") %></td>
-                <td><%= rs.getString("PNAME") %></td>
-                <td><%= rs.getInt("AMOUNT") %></td>
-                <td><%= decimalFormat.format(rs.getDouble("COST")) %></td>
-                <td><%= decimalFormat.format(rs.getDouble("소비자가격")) %></td>
-                <td><%= decimalFormat.format(rs.getDouble("할인가격")) %></td>
-            </tr>
-        <% } %>
-        </tbody>
+			</tbody>
        </table>    
     </section>
     <footer>HRDKOREA Copyright&#169;2016 All right reserved. Human Resources Delvelopment Serive of Korea</footer>

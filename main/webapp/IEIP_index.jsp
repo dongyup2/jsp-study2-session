@@ -63,9 +63,9 @@ footer{
     <nav>
         <ul>
             <li><a href="IEIP_registerOrder.jsp">주문등록</a></li>
-            <li><a href="">주문목록조회</a></li>
-            <li><a href="">점포별주문현황</a></li>
-            <li><a href="">제품코드조회</a></li>
+            <li><a href="IEIP_Orderlist.jsp">주문목록조회</a></li>
+            <li><a href="IEIP_OrderStatusByStore.jsp">점포별주문현황</a></li>
+            <li><a href="IEIP_ProductCodeSelect.jsp">제품코드조회</a></li>
             <li><a href="IEIP_index.jsp">홈으로</a></li>
         </ul>
     </nav>
