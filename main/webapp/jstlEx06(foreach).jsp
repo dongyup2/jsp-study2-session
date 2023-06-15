@@ -33,7 +33,7 @@
 			<c:when test="${status.first }">
 				<li style="font-weight: bold; color: red;">${movie }</li>
 			</c:when>
-			<c:when test="${!status.last }"><%--not이나 ! 같다 --%>
+			<c:when test="${!status.last }"><%--not이나 ! 같다	 --%>
 				<li style="font-weight: bold; color: blue;">${movie }</li>
 			</c:when>
 			<c:when test="${status.count == 2 }">
